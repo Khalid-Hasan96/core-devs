@@ -1,7 +1,8 @@
 import { toast } from 'react-toastify';
+
 const hitToast = (variant, message) => {
-    if (!['success', 'error'].includes(variant)) throw Error();
-    toast[`${variant}`](message, {
+    if (['success', 'error'].includes(variant)) throw Error();
+    toast(message, {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,

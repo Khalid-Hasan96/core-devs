@@ -13,14 +13,13 @@ export default function SubscriptionForm() {
       setAlertClass('alert-validate');
       return;
     }
-    fetch('http://103.108.146.90:5000/sendemail', {
+    fetch('https://103.108.146.90:5000/sendemail', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'content-Type': 'application/json'
       },
       body: JSON.stringify({ email })
-    }).then(res => res.text())
-      .then(data => JSON.parse(`${data}`))
+    }).then(res => res.json())
       .then(data => hitToast(data.message, data.success ? 'success' : 'error'))
       .catch(() => hitToast('Something went wrong. Please try again.', 'error'))
 
@@ -28,13 +27,8 @@ export default function SubscriptionForm() {
   }
 
   const validate = (email) => {
-    if (email.trim(/^([a-zA-Z0-9_\-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/).match() == null) {
-      return false;
-    } else if (email.trim() === '') {
-      return false;
-    }
-
-    return true;
+    const emailRegex = /^([a-zA-Z0-9_\-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/
+    return emailRegex.test(email);
   }
 
   return (
